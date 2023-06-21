@@ -8,5 +8,6 @@ class FoundationServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        //
     }
 }
