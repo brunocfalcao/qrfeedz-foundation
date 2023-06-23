@@ -5,7 +5,7 @@ namespace QRFeedz\Foundation\Abstracts;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 
-abstract class QRFeedzModel extends Notification
+abstract class QRFeedzNotification extends Notification
 {
     use Queueable;
 
