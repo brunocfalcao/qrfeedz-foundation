@@ -30,6 +30,7 @@ class QRFeedzMail extends Mailable
     {
         return new Content(
             markdown: $this->markdown,
+            with: $this->data
         );
     }
 
