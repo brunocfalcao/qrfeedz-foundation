@@ -14,6 +14,8 @@ class QRFeedzMail extends Mailable
 
     public $data = [];
 
+    public $preview = null;
+
     public function __construct()
     {
         //
@@ -30,7 +32,8 @@ class QRFeedzMail extends Mailable
     {
         return new Content(
             markdown: $this->markdown,
-            with: $this->data
+            with: array_merge($this->data,
+                ['preview' => $this->preview ?? $this->subject])
         );
     }
 
