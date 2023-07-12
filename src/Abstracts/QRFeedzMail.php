@@ -12,8 +12,13 @@ class QRFeedzMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    // Extra data passed to the email view.
     public $data = [];
 
+    // The notifiable object, always passed to the view.
+    public $notifiable = null;
+
+    // The preview message, for mobile devices. Always passed to the view.
     public $preview = null;
 
     public function __construct()
@@ -32,8 +37,13 @@ class QRFeedzMail extends Mailable
     {
         return new Content(
             markdown: $this->markdown,
-            with: array_merge($this->data,
-                ['preview' => $this->preview ?? $this->subject])
+            with: array_merge(
+                $this->data,
+                [
+                    'preview' => $this->preview,
+                    'notifiable' => $this->notifiable
+                ]
+            )
         );
     }
 
