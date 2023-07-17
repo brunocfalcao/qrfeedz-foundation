@@ -9,11 +9,6 @@ abstract class QRFeedzNotification extends Notification
 {
     use Queueable;
 
-    public function __construct()
-    {
-        //
-    }
-
     public function via(object $notifiable): array
     {
         return ['mail'];

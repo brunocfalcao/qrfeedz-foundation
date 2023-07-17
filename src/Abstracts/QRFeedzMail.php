@@ -13,7 +13,7 @@ class QRFeedzMail extends Mailable
     use Queueable, SerializesModels;
 
     // Extra data passed to the email view.
-    public $data = [];
+    public $data = ['header' => 'QRFeedz'];
 
     // The notifiable object, always passed to the view.
     public $notifiable = null;
