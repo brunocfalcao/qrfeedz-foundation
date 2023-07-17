@@ -21,9 +21,10 @@ class QRFeedzMail extends Mailable
     // The preview message, for mobile devices. Always passed to the view.
     public $preview = null;
 
-    public function __construct()
+    public function __construct(object $notifiable, array $data = [])
     {
-        //
+        $this->notifiable = $notifiable;
+        $this->data = array_merge($this->data, $data);
     }
 
     public function envelope(): Envelope
@@ -40,8 +41,9 @@ class QRFeedzMail extends Mailable
             with: array_merge(
                 $this->data,
                 [
+                    'subject' => $this->subject,
                     'preview' => $this->preview,
-                    'notifiable' => $this->notifiable
+                    'notifiable' => $this->notifiable,
                 ]
             )
         );
