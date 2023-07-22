@@ -3,17 +3,18 @@
 namespace QRFeedz\Foundation\Abstracts;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class QRFeedzMail extends Mailable
+class QRFeedzMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
-    // Extra data passed to the email view.
-    public $data = ['header' => 'QRFeedz'];
+    // Extra data, always passed to the view.
+    public $data = [];
 
     // The notifiable object, always passed to the view.
     public $notifiable = null;
@@ -30,6 +31,16 @@ class QRFeedzMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
+            from: new Address(
+                config('qrfeedz.system.mails.contact.email'),
+                config('qrfeedz.system.mails.contact.name')
+            ),
+            replyTo: [
+                new Address(
+                    config('qrfeedz.system.mails.contact.email'),
+                    config('qrfeedz.system.mails.contact.name')
+                ),
+            ],
             subject: $this->subject,
         );
     }
@@ -38,14 +49,7 @@ class QRFeedzMail extends Mailable
     {
         return new Content(
             markdown: $this->markdown,
-            with: array_merge(
-                $this->data,
-                [
-                    'subject' => $this->subject,
-                    'preview' => $this->preview,
-                    'notifiable' => $this->notifiable,
-                ]
-            )
+            with: $this->data
         );
     }
 
