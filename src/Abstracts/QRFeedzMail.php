@@ -5,6 +5,7 @@ namespace QRFeedz\Foundation\Abstracts;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -26,6 +27,9 @@ class QRFeedzMail extends Mailable implements ShouldQueue
     {
         $this->notifiable = $notifiable;
         $this->data = array_merge($this->data, $data);
+
+        // Default queue for sending qrfeedz emails.
+        $this->queue = config('qrfeedz.system.mails.queue_name');
     }
 
     public function envelope(): Envelope
