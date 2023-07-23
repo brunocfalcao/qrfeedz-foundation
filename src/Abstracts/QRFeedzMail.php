@@ -26,7 +26,7 @@ class QRFeedzMail extends Mailable implements ShouldQueue
     public $preview = null;
 
     // The localization filename to be used. Must respect a specific structure.
-    public $localFilename = null;
+    public $localeFilename = null;
 
     public function __construct(object $notifiable, array $data = [])
     {
@@ -36,14 +36,14 @@ class QRFeedzMail extends Mailable implements ShouldQueue
 
         $this->notifiable = $notifiable;
 
-        if ($this->localFilename != null) {
-            $this->subject = __("qrfeedz::{$this->localFilename}.subject");
-            $this->preview = __("qrfeedz::{$this->localFilename}.preview");
+        if ($this->localeFilename != null) {
+            $this->subject = __("qrfeedz::{$this->localeFilename}.subject");
+            $this->preview = __("qrfeedz::{$this->localeFilename}.preview");
         }
 
-        dd($this->subject);
-
         $this->data = array_merge($this->data, $data);
+
+        $this->markdown = 'qrfeedz-services::'.$this->markdown;
 
         // Default queue for sending qrfeedz emails.
         $this->queue = config('qrfeedz.system.mails.queue_name');
@@ -70,7 +70,9 @@ class QRFeedzMail extends Mailable implements ShouldQueue
     {
         return new Content(
             markdown: $this->markdown,
-            with: $this->data
+            with: array_merge($this->data, [
+                'subject' => $this->subject,
+            ])
         );
     }
 
