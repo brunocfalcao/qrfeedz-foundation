@@ -37,8 +37,8 @@ class QRFeedzMail extends Mailable implements ShouldQueue
         $this->notifiable = $notifiable;
 
         if ($this->localeFilename != null) {
-            $this->subject = __("qrfeedz::{$this->localeFilename}.subject");
-            $this->preview = __("qrfeedz::{$this->localeFilename}.preview");
+            $this->subject = __("qrfeedz-services::{$this->localeFilename}.subject");
+            $this->preview = __("qrfeedz-services::{$this->localeFilename}.preview");
         }
 
         $this->data = array_merge($this->data, $data);
