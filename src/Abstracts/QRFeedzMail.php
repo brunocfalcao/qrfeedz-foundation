@@ -9,6 +9,8 @@ use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\App;
+use QRFeedz\Cube\Models\User;
 
 class QRFeedzMail extends Mailable implements ShouldQueue
 {
@@ -23,9 +25,24 @@ class QRFeedzMail extends Mailable implements ShouldQueue
     // The preview message, for mobile devices. Always passed to the view.
     public $preview = null;
 
+    // The localization filename to be used. Must respect a specific structure.
+    public $localFilename = null;
+
     public function __construct(object $notifiable, array $data = [])
     {
+        if ($notifiable instanceof User) {
+            App::setLocale($notifiable->locale->canonical);
+        }
+
         $this->notifiable = $notifiable;
+
+        if ($this->localFilename != null) {
+            $this->subject = __("qrfeedz::{$this->localFilename}.subject");
+            $this->preview = __("qrfeedz::{$this->localFilename}.preview");
+        }
+
+        dd($this->subject);
+
         $this->data = array_merge($this->data, $data);
 
         // Default queue for sending qrfeedz emails.
