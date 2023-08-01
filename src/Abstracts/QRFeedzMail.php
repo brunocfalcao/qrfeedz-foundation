@@ -3,7 +3,6 @@
 namespace QRFeedz\Foundation\Abstracts;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
@@ -12,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use QRFeedz\Cube\Models\User;
 
-class QRFeedzMail extends Mailable implements ShouldQueue
+class QRFeedzMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -79,5 +78,16 @@ class QRFeedzMail extends Mailable implements ShouldQueue
     public function attachments(): array
     {
         return [];
+    }
+
+    /**
+     * Small override to the original send() method since it needs to consider
+     * the general send notification config flag.
+     */
+    public function send($mailer)
+    {
+        if (config('qrfeedz.system.allow_notifications') === true) {
+            parent::send($mailer);
+        }
     }
 }
