@@ -25,7 +25,7 @@ class QRFeedzMail extends Mailable
     public $preview = null;
 
     // The localization filename to be used. Must respect a specific structure.
-    public $localeFilename = null;
+    public $localePrefix = null;
 
     public function __construct(object $notifiable, array $data = [])
     {
@@ -35,17 +35,14 @@ class QRFeedzMail extends Mailable
 
         $this->notifiable = $notifiable;
 
-        if ($this->localeFilename != null) {
-            $this->subject = __("qrfeedz-services::{$this->localeFilename}.subject");
-            $this->preview = __("qrfeedz-services::{$this->localeFilename}.preview");
+        if ($this->localePrefix != null) {
+            $this->subject = __("qrfeedz-services::{$this->localePrefix}.subject");
+            $this->preview = __("qrfeedz-services::{$this->localePrefix}.preview");
         }
 
         $this->data = array_merge($this->data, $data);
 
         $this->markdown = 'qrfeedz-services::'.$this->markdown;
-
-        // Default queue for sending qrfeedz emails.
-        $this->queue = config('qrfeedz.system.mails.queue_name');
     }
 
     public function envelope(): Envelope
