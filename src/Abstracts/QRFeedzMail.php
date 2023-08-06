@@ -2,19 +2,15 @@
 
 namespace QRFeedz\Foundation\Abstracts;
 
-use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\App;
 use QRFeedz\Cube\Models\User;
 
 class QRFeedzMail extends Mailable
 {
-    use Queueable, SerializesModels;
-
     // Extra data, always passed to the view.
     public $data = [];
 
