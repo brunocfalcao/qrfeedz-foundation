@@ -9,6 +9,11 @@ use QRFeedz\Admin\Fields\HumanDateTime;
 
 abstract class QRFeedzResource extends Resource
 {
+    public static function softDeletes()
+    {
+        return true;
+    }
+
     /**
      * The current logged user.
      *
