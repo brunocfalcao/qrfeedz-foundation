@@ -11,7 +11,7 @@ abstract class QRFeedzResource extends Resource
 {
     public static function softDeletes()
     {
-        return true;
+        return false;
     }
 
     /**
