@@ -2,25 +2,17 @@
 
 namespace QRFeedz\Foundation\Abstracts;
 
+use Brunocfalcao\LaravelHelpers\Traits\HasCustomQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
-use QRFeedz\Foundation\Classes\CustomEloquentQueryBuilder;
 
 abstract class QRFeedzModel extends Model
 {
-    protected $guarded = [];
+    use HasCustomQueryBuilder;
 
-    public function newEloquentBuilder($query)
-    {
-        return new CustomEloquentQueryBuilder($query);
-    }
+    protected $guarded = [];
 
     /**
      * ---------------------- BUSINESS METHODS -----------------------------
-     */
-
-    /**
-     * Decides if an eloquent model can be deleted, so all the conditions need
-     * to meet before the instance is deleted. Can be used for force delete too.
      */
     public function canBeDeleted()
     {
